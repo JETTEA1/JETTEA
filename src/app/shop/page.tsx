@@ -9,9 +9,9 @@ import ShopVariantCard from "@/components/ShopVariantCard";
 import { formatNaira } from "@/lib/utils";
 
 export const metadata = {
-  title: "Shop JETTEA® Green Tea | Sachets, Packets & Cartons",
+  title: "Shop JETTEA® Green Tea | Retail Packets & Master Cartons",
   description:
-    "Order authentic JETTEA® Green Tea by J.C. Bonjour Concerns Limited. Available in single sachets (₦400), retail packets (₦9,600), and master cartons (₦115,200). Fast nationwide delivery.",
+    "Order authentic JETTEA® Green Tea by J.C. Bonjour Concerns Limited. Available in retail packets of 24 sachets (₦9,600) and master cartons of 12 packets / 288 sachets (₦115,200). Fast nationwide delivery.",
 };
 
 export const revalidate = 60;
@@ -29,6 +29,7 @@ async function getShopData() {
     const { data: variants } = await supabase
       .from("product_variants")
       .select("*")
+      .eq("is_active", true)
       .order("display_order", { ascending: true });
 
     const { data: inventory } = await supabase
@@ -67,7 +68,7 @@ export default async function ShopPage() {
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "NGN",
-      lowPrice: "400",
+      lowPrice: "9600",
       highPrice: "115200",
       offerCount: variants.length.toString(),
       offers: variants.map((v) => ({
@@ -104,7 +105,7 @@ export default async function ShopPage() {
         </div>
 
         {/* Product Variant Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 items-stretch">
           {variants.map((variant) => (
             <ShopVariantCard key={variant.id} variant={variant} />
           ))}

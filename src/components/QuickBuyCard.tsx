@@ -92,7 +92,7 @@ export default function QuickBuyCard({ variants }: QuickBuyCardProps) {
         <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block">
           Select Packaging Format:
         </label>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-3">
           {variants.map((v) => {
             const isSelected = currentVariant?.id === v.id;
             return (
@@ -103,19 +103,19 @@ export default function QuickBuyCard({ variants }: QuickBuyCardProps) {
                   setSelectedVariant(v);
                   setQuantity(1);
                 }}
-                className={`p-3 rounded-xl text-center border-2 transition-all flex flex-col items-center justify-between ${
+                className={`p-3.5 rounded-xl text-center border-2 transition-all flex flex-col items-center justify-between ${
                   isSelected
                     ? "border-forest bg-brand-50/70 text-forest-deep shadow-sm"
                     : "border-gray-200 bg-gray-50/50 hover:border-gray-300 text-gray-700"
                 }`}
               >
                 <span className="text-xs font-bold capitalize">
-                  {v.unit_type}
+                  {v.name}
                 </span>
-                <span className="text-[11px] text-gray-500 font-medium">
-                  {v.sachet_equivalent} {v.sachet_equivalent === 1 ? "sachet" : "sachets"}
+                <span className="text-[11px] text-gray-500 font-medium mt-0.5">
+                  {v.sachet_equivalent} sachets
                 </span>
-                <span className="text-xs font-extrabold text-forest mt-1">
+                <span className="text-sm font-extrabold text-forest mt-1.5">
                   {formatNaira(v.price)}
                 </span>
               </button>
@@ -132,10 +132,9 @@ export default function QuickBuyCard({ variants }: QuickBuyCardProps) {
             {formatNaira(currentVariant?.price || 0)}
           </span>
         </div>
-        <p className="text-xs text-gray-500 leading-relaxed">
-          {currentVariant?.unit_type === "sachet" && "1 individual botanical freshness sachet."}
-          {currentVariant?.unit_type === "packet" && "Contains 24 sealed sachets for daily wellness (₦400 per sachet)."}
-          {currentVariant?.unit_type === "carton" && "12 full packets = 288 sachets total. Best value supply."}
+        <p className="text-xs text-gray-600 leading-relaxed">
+          {currentVariant?.unit_type === "packet" && "Contains 24 sealed freshness sachets for daily healthy living (₦400/sachet eq.)."}
+          {currentVariant?.unit_type === "carton" && "12 full packets = 288 sachets total. Best value supply for homes & businesses."}
         </p>
       </div>
 

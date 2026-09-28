@@ -38,6 +38,7 @@ async function getHomeData() {
     const { data: variants } = await supabase
       .from("product_variants")
       .select("*")
+      .eq("is_active", true)
       .order("display_order", { ascending: true });
 
     const { data: inventory } = await supabase
@@ -80,7 +81,7 @@ export default async function HomePage() {
         name: "What are the available purchase options for JETTEA®?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "JETTEA® is available as Single Sachets (₦400), Retail Packets containing 24 sachets (₦9,600), and Master Cartons containing 12 packets / 288 sachets (₦115,200). Wholesale distributor pricing is also available.",
+          text: "JETTEA® is sold as Retail Packets containing 24 sachets (₦9,600) and Master Cartons containing 12 packets / 288 sachets (₦115,200). Single sachets are not sold individually. Wholesale distributor pricing is also available.",
         },
       },
       {
@@ -158,12 +159,12 @@ export default async function HomePage() {
               {/* Trust Indicators */}
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-tea-border max-w-md mx-auto lg:mx-0 text-left">
                 <div className="space-y-1">
-                  <p className="font-display font-bold text-forest-deep text-lg">₦400</p>
-                  <p className="text-xs text-gray-500 font-medium">Per Sachet</p>
+                  <p className="font-display font-bold text-forest-deep text-lg">₦9,600</p>
+                  <p className="text-xs text-gray-500 font-medium">Retail Packet (24s)</p>
                 </div>
                 <div className="space-y-1 border-x border-tea-border px-4">
-                  <p className="font-display font-bold text-forest-deep text-lg">24 Sachets</p>
-                  <p className="text-xs text-gray-500 font-medium">Per Retail Packet</p>
+                  <p className="font-display font-bold text-forest-deep text-lg">₦115,200</p>
+                  <p className="text-xs text-gray-500 font-medium">Master Carton (12p)</p>
                 </div>
                 <div className="space-y-1 pl-2">
                   <p className="font-display font-bold text-forest-deep text-lg">Nationwide</p>
@@ -210,7 +211,7 @@ export default async function HomePage() {
               </div>
               <h3 className="font-bold text-lg text-forest-deep">Individually Sealed</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Each sachet is sealed to lock in volatile botanicals, rich natural aroma, and peak freshness until the moment you brew.
+                Each sachet inside the packet is sealed to lock in volatile botanicals, rich natural aroma, and peak freshness.
               </p>
             </div>
 
@@ -246,37 +247,13 @@ export default async function HomePage() {
               Available Formats & Pricing
             </h2>
             <p className="text-gray-600 text-sm sm:text-base">
-              Choose the size that fits your routine—from individual daily sachets to family packets and wholesale cartons.
+              Choose from our retail packets for individual & family wellness or master cartons for bulk and commercial supply.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            {/* Single Sachet */}
-            <div className="bg-white rounded-2xl p-8 border border-tea-border shadow-soft flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="inline-block px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-bold uppercase">
-                  Daily Trial
-                </div>
-                <h3 className="font-display font-extrabold text-2xl text-forest-deep">Single Sachet</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  1 individually sealed sachet for on-the-go brewing or first-time tasting.
-                </p>
-                <div className="pt-2">
-                  <span className="text-3xl font-black text-forest">₦400</span>
-                  <span className="text-gray-500 text-xs font-medium ml-2">/ 1 Sachet</span>
-                </div>
-              </div>
-
-              <Link
-                href="/shop"
-                className="w-full text-center bg-tea-muted hover:bg-forest hover:text-white text-forest-deep font-bold py-3 rounded-xl transition-all text-sm"
-              >
-                Select Sachet
-              </Link>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8 items-stretch">
             {/* Retail Packet - Most Popular */}
-            <div className="bg-white rounded-2xl p-8 border-2 border-gold-500 shadow-card relative flex flex-col justify-between space-y-6 transform md:-translate-y-2">
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border-2 border-gold-500 shadow-card relative flex flex-col justify-between space-y-6">
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-gold text-forest-deep font-black text-xs uppercase px-4 py-1 rounded-full shadow-md tracking-wider">
                 Most Popular Retail Choice
               </div>
@@ -285,46 +262,54 @@ export default async function HomePage() {
                 <div className="inline-block px-3 py-1 rounded-full bg-gold-100 text-gold-900 text-xs font-bold uppercase">
                   Monthly Routine (24 Sachets)
                 </div>
-                <h3 className="font-display font-extrabold text-2xl text-forest-deep">Retail Packet</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  24 individually sealed freshness sachets. Ideal for maintaining a consistent daily morning or evening wellness regimen.
+                <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-forest-deep">Retail Packet</h3>
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  24 individually sealed freshness sachets inside each packet. Ideal for maintaining a consistent daily morning or evening wellness regimen.
                 </p>
-                <div className="pt-2">
-                  <span className="text-3xl font-black text-forest">₦9,600</span>
-                  <span className="text-gray-500 text-xs font-medium ml-2">/ 24 Sachets (₦400/sachet)</span>
+                <div className="pt-2 border-t border-gray-100">
+                  <span className="text-3xl sm:text-4xl font-black text-forest">₦9,600</span>
+                  <span className="text-gray-500 text-xs font-medium ml-2">/ 24 Sachets (₦400/sachet eq.)</span>
                 </div>
               </div>
 
               <Link
                 href="/shop"
-                className="w-full text-center bg-gradient-brand text-white font-bold py-3.5 rounded-xl shadow-md hover:opacity-95 transition-all text-sm uppercase tracking-wider"
+                className="w-full text-center bg-gradient-brand text-white font-bold py-4 rounded-xl shadow-md hover:opacity-95 transition-all text-sm uppercase tracking-wider"
               >
                 Buy Retail Packet
               </Link>
             </div>
 
             {/* Master Carton */}
-            <div className="bg-white rounded-2xl p-8 border border-tea-border shadow-soft flex flex-col justify-between space-y-6">
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-tea-border shadow-soft flex flex-col justify-between space-y-6 hover:border-gray-300 transition-all">
               <div className="space-y-4">
                 <div className="inline-block px-3 py-1 rounded-full bg-brand-100 text-brand-900 text-xs font-bold uppercase">
-                  Master Carton (288 Sachets)
+                  Master Carton (12 Packets / 288 Sachets)
                 </div>
-                <h3 className="font-display font-extrabold text-2xl text-forest-deep">Master Carton</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  12 full packets containing 288 sachets total. Ideal for offices, families, or commercial supply.
+                <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-forest-deep">Master Carton</h3>
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  12 full packets containing 288 sachets total. Ideal for offices, families, bulk personal supply, or commercial retailing.
                 </p>
-                <div className="pt-2">
-                  <span className="text-3xl font-black text-forest">₦115,200</span>
-                  <span className="text-gray-500 text-xs font-medium ml-2">/ 12 Packets</span>
+                <div className="pt-2 border-t border-gray-100">
+                  <span className="text-3xl sm:text-4xl font-black text-forest">₦115,200</span>
+                  <span className="text-gray-500 text-xs font-medium ml-2">/ 12 Packets (288 Sachets)</span>
                 </div>
               </div>
 
-              <Link
-                href="/wholesale"
-                className="w-full text-center bg-tea-muted hover:bg-forest hover:text-white text-forest-deep font-bold py-3 rounded-xl transition-all text-sm"
-              >
-                Wholesale Inquiry
-              </Link>
+              <div className="grid grid-cols-2 gap-3">
+                <Link
+                  href="/shop"
+                  className="text-center bg-forest hover:bg-forest-deep text-white font-bold py-3.5 rounded-xl transition-all text-xs sm:text-sm uppercase tracking-wider"
+                >
+                  Buy Carton
+                </Link>
+                <Link
+                  href="/wholesale"
+                  className="text-center bg-tea-muted hover:bg-forest hover:text-white text-forest-deep font-bold py-3.5 rounded-xl transition-all text-xs sm:text-sm uppercase tracking-wider"
+                >
+                  Wholesale
+                </Link>
+              </div>
             </div>
           </div>
         </div>

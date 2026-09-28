@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: "How many sachets are in a packet and in a carton?",
-    a: "One Retail Packet contains 24 individually sealed sachets (₦9,600). One Master Carton contains 12 packets, which equals 288 sachets in total (₦115,200). Single trial sachets are available for ₦400.",
+    a: "One Retail Packet contains 24 individually sealed sachets (₦9,600). One Master Carton contains 12 packets, which equals 288 sachets in total (₦115,200). Note that single sachets are not sold individually.",
   },
   {
     q: "How fast is delivery across Nigeria?",

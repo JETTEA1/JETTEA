@@ -1,9 +1,30 @@
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://jqbynynnkydrfqlgeyoz.supabase.co";
-const SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxYnlueW5ua3lkcmZxbGdleW96Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDI2Mzc2NiwiZXhwIjoyMTA1ODM5NzY2fQ.h25nK7psBijvLfKwyDLKRAJKD7G6Nzw5oXXBFUnAEdU";
+import fs from "fs";
+import path from "path";
 
-const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+// Read from process.env or .env.local
+let SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+let SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SUPABASE_URL || !SERVICE_KEY) {
+  try {
+    const envContent = fs.readFileSync(path.join(process.cwd(), ".env.local"), "utf8");
+    envContent.split("\n").forEach(line => {
+      const match = line.match(/^([^=]+)=(.*)$/);
+      if (match) {
+        const key = match[1].trim();
+        const val = match[2].trim();
+        if (key === "NEXT_PUBLIC_SUPABASE_URL") SUPABASE_URL = val;
+        if (key === "SUPABASE_SERVICE_ROLE_KEY") SERVICE_KEY = val;
+      }
+    });
+  } catch (e) {
+    // env file optional
+  }
+}
+
+const supabase = createClient(SUPABASE_URL || "", SERVICE_KEY || "");
 
 async function runTests() {
   console.log("==========================================");
@@ -21,12 +42,13 @@ async function runTests() {
     .eq("slug", "jettea-green-tea")
     .single();
 
-  if (prodErr || !product || product.product_variants.length !== 3) {
-    console.error("FAIL: Product or variants missing", prodErr);
+  if (prodErr || !product || product.product_variants.filter(v => v.is_active).length < 2) {
+    console.error("FAIL: Product or active variants missing", prodErr);
     failed++;
   } else {
-    console.log(`PASS: Found product "${product.name}" with ${product.product_variants.length} active variants.`);
-    product.product_variants.forEach(v => {
+    const activeVars = product.product_variants.filter(v => v.is_active);
+    console.log(`PASS: Found product "${product.name}" with ${activeVars.length} active purchasable variants (Packets & Cartons).`);
+    activeVars.forEach(v => {
       console.log(`   - Variant: ${v.name} | Price: ₦${v.price} | Sachet Eq: ${v.sachet_equivalent}`);
     });
     passed++;
