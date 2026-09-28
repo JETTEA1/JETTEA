@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 249 250 246;
+    --foreground: 14 24 18;
+    --card: 255 255 255;
+    --card-foreground: 14 24 18;
+    --primary: 22 101 52;
+    --primary-foreground: 255 255 255;
+    --accent: 243 198 35;
+    --accent-foreground: 14 24 18;
+    --border: 226 235 225;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    background-color: #F9FAF6;
+    color: #0E1812;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 235, 225, 0.8);
+}
+
+.glass-dark {
+  background: rgba(9, 35, 21, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(243, 198, 35, 0.15);
+}
+
+.gradient-hero {
+  background: radial-gradient(circle at 80% 20%, rgba(243, 198, 35, 0.15) 0%, transparent 40%),
+              radial-gradient(circle at 10% 80%, rgba(22, 163, 74, 0.12) 0%, transparent 40%),
+              #F9FAF6;
+}
+
+.gradient-brand {
+  background: linear-gradient(135deg, #092315 0%, #14532d 50%, #1b5e36 100%);
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #F3C623 0%, #E8B208 50%, #D97706 100%);
+}
+
+.gold-glow {
+  box-shadow: 0 0 30px -5px rgba(243, 198, 35, 0.4);
+}
+
+.tea-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tea-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(15, 56, 34, 0.12);
+}
